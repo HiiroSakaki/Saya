@@ -1,3 +1,4 @@
+import traceback
 from datetime import datetime
 import discord
 import yaml
@@ -57,6 +58,7 @@ class MyClient(discord.Client):
         except Exception as e:
             msg_emb = discord.Embed(title="Erreur", type="rich", color=discord.Color.dark_red())
             msg_emb.add_field(name="Exception :",value=str(e))
+            traceback.print_exc()
             await message.channel.send(embed=msg_emb)
 
 

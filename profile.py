@@ -1,6 +1,6 @@
 import discord
 
-from Arcapi import AsyncApi
+from Arcapi import SyncApi
 
 from constants import partners_names
 from utils import check_id, get_partner_icon, format_time, format_code
@@ -11,8 +11,8 @@ async def profile(message):
         await message.channel.send("> Erreur: Aucun code Arcaea n'est lié a ce compte Discord (*!register*)")
         return
 
-    api_ = AsyncApi(user_code=code)
-    data = await api_.scores()
+    api_ = SyncApi(user_code=code, timeout=120)
+    data = api_.scores()
     prfl = data[1]
 
     rating = "{0:04d}".format(prfl["rating"])[:2] + "." + "{0:04d}".format(prfl["rating"])[2:] + " PTT"

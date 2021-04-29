@@ -2,7 +2,7 @@ import discord
 import aiosqlite
 
 from datetime import datetime
-from Arcapi import AsyncApi
+from Arcapi import SyncApi
 
 from constants import diff, cover, clr
 from utils import check_id, format_time, format_score
@@ -15,8 +15,8 @@ async def leaderboard(message):
         return
 
     # Get song name
-    api_ = AsyncApi(user_code=code)
-    data = await api_.scores()
+    api_ = SyncApi(user_code=code, timeout=120)
+    data = api_.scores()
     songlist0 = data[0]
 
     songlist = []
@@ -103,8 +103,8 @@ async def forceupdate(message):
     await message.channel.send("> Mise à jour effectuée.")
 
 async def add_scores(code):
-    api_ = AsyncApi(user_code=code)
-    data = await api_.scores()
+    api_ = SyncApi(user_code=code, timeout=120)
+    data = api_.scores()
 
     async with aiosqlite.connect(f"leaderboard.db") as db:
         for line in data[2:]:

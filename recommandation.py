@@ -1,6 +1,6 @@
 import discord
 
-from Arcapi import AsyncApi
+from Arcapi import SyncApi
 
 from constants import diff, clr
 from utils import check_id, get_diff, get_partner_icon, get_ptt_recommendation_scores, format_time, format_score
@@ -19,8 +19,8 @@ async def ptt_recommendation(message):
             if 1 <= int(message.content.split(" ")[1]) <= 20:
                 nb_scores = int(message.content.split(" ")[1])
 
-    api_ = AsyncApi(user_code=code)
-    data = await api_.scores()
+    api_ = SyncApi(user_code=code, timeout=120)
+    data = api_.scores()
     songlist = data[0]
     prfl = data[1]
     scores = []

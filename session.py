@@ -1,7 +1,7 @@
 import discord
 import random
 
-from Arcapi import AsyncApi
+from Arcapi import SyncApi
 from itertools import repeat
 from operator import itemgetter
 
@@ -33,8 +33,8 @@ async def session_generator(message):
         nb_songs.append(int(params[i + 1]))
         i += 2
 
-    api_ = AsyncApi(user_code=code)
-    data = await api_.scores()
+    api_ = SyncApi(user_code=code, timeout=120)
+    data = api_.scores()
     songlist = data[0]
     prfl = data[1]
     scores = []

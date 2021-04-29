@@ -1,6 +1,6 @@
 import discord
 
-from Arcapi import AsyncApi
+from Arcapi import SyncApi
 
 from constants import cover, diff, clr
 from utils import check_id, get_partner_icon, get_diff, format_score, format_time
@@ -11,8 +11,8 @@ async def recent(message):
         await message.channel.send("> Erreur: Aucun code Arcaea n'est lié a ce compte Discord (*!register*)")
         return
 
-    api_ = AsyncApi(user_code=code)
-    data = await api_.songs()
+    api_ = SyncApi(user_code=code, timeout=120)
+    data = api_.songs()
     songlist = data[0]
     prfl = data[1]
     recent = prfl["recent_score"][0]

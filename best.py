@@ -1,6 +1,6 @@
 import discord
 
-from Arcapi import AsyncApi
+from Arcapi import SyncApi
 from operator import itemgetter
 
 from constants import cover, diff, clr
@@ -19,8 +19,8 @@ async def best(message):
             if 1 <= int(message.content.split(" ")[1]) <= 30:
                 nb_scores = int(message.content.split(" ")[1])
 
-    api_ = AsyncApi(user_code=code)
-    data = await api_.scores()
+    api_ = SyncApi(user_code=code, timeout=120)
+    data = api_.scores()
     songlist = data[0]
     prfl = data[1]
     ls_top = []
