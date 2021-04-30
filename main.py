@@ -1,5 +1,5 @@
 import traceback
-from datetime import datetime
+from datetime import datetime, timedelta
 import discord
 import yaml
 
@@ -16,14 +16,22 @@ from recommandation import ptt_recommendation
 from session import session_generator
 from pog import pog
 
+a_minute = timedelta(minutes=1)
 
 class MyClient(discord.Client):
+    last_query = datetime.now()
     async def on_ready(self):
         await self.change_presence(activity=discord.Game(name="Arcaea"))
         print(f'[{str(datetime.now().time().strftime("%H:%M:%S"))}] '
               f'[INFO] Connecté en tant que: {self.user.name} ({self.user.id})')
 
     async def on_message(self, message):
+        if message.content.startswith("!"):
+            if datetime.now() - self.last_query < a_minute:
+                await message.channel.send("Please wait a minute between commands, I'm working slowly because of Chinese devs")
+                return
+            else:
+                self.last_query = datetime.now()
         try:
             if type(message.channel) != discord.channel.DMChannel:
                 if message.content.startswith("!art"):
